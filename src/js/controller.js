@@ -20,7 +20,6 @@ const controlRecipes = async function () {
     if (!recipeId) {
       return;
     }
-    console.log(recipeId);
     recipeView.renderSpinner();
 
     // (0) Update results view to mark selected result
