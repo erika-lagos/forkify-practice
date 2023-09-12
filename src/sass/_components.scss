@@ -112,6 +112,10 @@
     outline: none;
   }
 
+  &:not(:last-child) {
+    margin-right: 0.6rem;
+  }
+
   svg {
     height: 2.5rem;
     width: 2.5rem;

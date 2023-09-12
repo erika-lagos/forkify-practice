@@ -1,6 +1,6 @@
 import { async } from 'regenerator-runtime';
 import { API_URL, API_KEY, RESULTS_PER_PAGE } from './config.js';
-import { AJAX } from './helpers.js';
+import { AJAX, deleteRequest } from './helpers.js';
 
 export const state = {
   recipe: {},
@@ -131,6 +131,15 @@ export const uploadRecipe = async function (newRecipe) {
     state.recipe = createRecipeObject(data);
     addBookmark(state.recipe);
   } catch (err) {
+    throw err;
+  }
+};
+
+export const deleteRecipe = async function (recipeId) {
+  try {
+    await deleteRequest(`${API_URL}${recipeId}?key=${API_KEY}`);
+  } catch (err) {
+    console.error(err);
     throw err;
   }
 };

@@ -39,6 +39,32 @@ class RecipeView extends View {
     });
   }
 
+  addHandlerDelete(handler) {
+    this._parentElement.addEventListener('click', function (evt) {
+      const btn = evt.target.closest('.btn--delete');
+      if (!btn) {
+        return;
+      }
+      handler();
+    });
+  }
+
+  reset() {
+    const markup = `
+    <div class="message">
+          <div>
+            <svg>
+              <use href="${icons}#icon-smile"></use>
+            </svg>
+          </div>
+          <p>Start by searching for a recipe or an ingredient. Have fun!</p>
+        </div>`;
+    this._clear();
+    this._parentElement.insertAdjacentHTML('afterbegin', markup);
+    window.history.pushState(null, document.title, '/');
+    window.scrollTo(0, 0);
+  }
+
   _generateMarkup() {
     return `
     <figure class="recipe__fig">
@@ -97,6 +123,11 @@ class RecipeView extends View {
         <use href="${icons}#icon-bookmark${
       this._data.bookmarked ? '-fill' : ''
     }"></use>
+      </svg>
+    </button>
+    <button class="btn--round btn--delete ${this._data.key ? '' : 'hidden'}">
+      <svg>
+        <use href="${icons}#icon-delete"></use>
       </svg>
     </button>
     </div>

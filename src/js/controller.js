@@ -96,7 +96,7 @@ const controlAddRecipe = async function (newRecipe) {
 
     // Upload new recipe data
     await model.uploadRecipe(newRecipe);
-    console.log(model.state.recipe);
+    // console.log(model.state.recipe);
 
     // Render recipe
     recipeView.render(model.state.recipe);
@@ -120,16 +120,36 @@ const controlAddRecipe = async function (newRecipe) {
   }
 };
 
+const controlDeleteRecipe = async function () {
+  try {
+    // Send API delete request
+    await model.deleteRecipe(model.state.recipe.id);
+
+    // Remove recipe from bookmarks
+    model.deleteBookmark(model.state.recipe.id);
+    bookmarksView.render(model.state.bookmarks);
+
+    // Remove recipe from search results (if needed)
+    // TODO
+
+    // Clear recipe view
+    recipeView.reset();
+  } catch (err) {
+    alert(`Recipe could not be deleted! ${err.message}`);
+  }
+};
+
 const init = function () {
   //Subcriber function
   bookmarksView.addHandlerRender(controlBookmarks);
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHanlderServings(controlServings);
   recipeView.addHanlderAddBookmark(controlAddBookmark);
+  recipeView.addHandlerDelete(controlDeleteRecipe);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
   addRecipeView.addHandlerUpload(controlAddRecipe);
-  console.log('Welcome to the application!');
+  // console.log('Welcome to the application!');
 };
 
 init();

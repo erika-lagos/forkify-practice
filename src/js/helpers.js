@@ -31,6 +31,20 @@ export const AJAX = async function (url, uploadData = undefined) {
   }
 };
 
+export const deleteRequest = async function (url) {
+  try {
+    const fetchPro = fetch(url, {
+      method: 'DELETE',
+    });
+    const response = await Promise.race([fetchPro, timeout(TIMEOUT_SECONDS)]);
+    if (!response.ok) {
+      throw new Error(`${data.message} (${response.status})`);
+    }
+  } catch (err) {
+    throw err;
+  }
+};
+
 /*
 export const getJSON = async function (url) {
   try {
