@@ -61,7 +61,7 @@ class RecipeView extends View {
         </div>`;
     this._clear();
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
-    window.history.pushState(null, document.title, '/');
+
     window.scrollTo(0, 0);
   }
 

@@ -1,5 +1,5 @@
 import * as model from './model.js';
-import { MODAL_CLOSE_SECONDS } from './config.js';
+
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
@@ -109,11 +109,6 @@ const controlAddRecipe = async function (newRecipe) {
 
     // Change ID in URL
     window.history.pushState(null, '', `#${model.state.recipe.id}`);
-
-    // Close form window after a few seconds
-    setTimeout(function () {
-      addRecipeView._toggleWindow();
-    }, MODAL_CLOSE_SECONDS * 1000);
   } catch (err) {
     console.error(err);
     addRecipeView.renderError(err.message);
@@ -126,14 +121,16 @@ const controlDeleteRecipe = async function () {
     await model.deleteRecipe(model.state.recipe.id);
 
     // Remove recipe from bookmarks
-    model.deleteBookmark(model.state.recipe.id);
     bookmarksView.render(model.state.bookmarks);
 
-    // Remove recipe from search results (if needed)
-    // TODO
+    // Remove recipe from search results
+    resultsView.render(model.getSearchResultsPage());
 
     // Clear recipe view
     recipeView.reset();
+
+    // Update browser url
+    window.history.pushState(null, document.title, '/');
   } catch (err) {
     alert(`Recipe could not be deleted! ${err.message}`);
   }

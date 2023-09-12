@@ -138,6 +138,15 @@ export const uploadRecipe = async function (newRecipe) {
 export const deleteRecipe = async function (recipeId) {
   try {
     await deleteRequest(`${API_URL}${recipeId}?key=${API_KEY}`);
+    // remove recipe from bookmarks
+    deleteBookmark(recipeId);
+    // remove recipe from search results
+    state.search.results.splice(
+      state.search.results.findIndex(result => result.id === recipeId),
+      1
+    );
+    // remove recipe from model
+    state.recipe = {};
   } catch (err) {
     console.error(err);
     throw err;
