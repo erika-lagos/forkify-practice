@@ -26,36 +26,46 @@ class PaginationView extends View {
     // console.log(`Pages: ${numPages}`);
     const page = this._data.page;
     const prevBtn = `
-        <button data-goto="${
-          page - 1
-        }" class="btn--inline pagination__btn--prev">
-            <svg class="search__icon">
-                <use href="${icons}#icon-arrow-left"></use>
-            </svg>
-            <span>Page ${page - 1}</span>
-        </button>`;
-    const nextBtn = `
-        <button data-goto="${
-          page + 1
-        }" class="btn--inline pagination__btn--next">
-            <span>Page ${page + 1}</span>
+            <li class="pagination__elmt">
+              <button data-goto="${
+                page - 1
+              }" class="btn--inline pagination__btn--prev">
                 <svg class="search__icon">
-                    <use href="${icons}#icon-arrow-right"></use>
+                  <use href="${icons}#icon-arrow-left"></use>
                 </svg>
-        </button>`;
+                <span>Page ${page - 1}</span>
+              </button>
+            </li>`;
+
+    const nextBtn = `
+            <li class="pagination__elmt">
+              <button data-goto="${
+                page + 1
+              }" class="btn--inline pagination__btn--next">
+                <span>Page ${page + 1}</span>
+                <svg class="search__icon">
+                  <use href="${icons}#icon-arrow-right"></use>
+                </svg>
+              </button>
+            </li>`;
+    const pagesLabel = `
+            <li class="pagination__elmt">
+              <label class="pagination__label">Page ${page} of ${numPages}</label>
+            </li>
+    `;
 
     // We are at page 1, and the are other pages
     if (page === 1 && numPages > 1) {
-      return nextBtn;
+      return `${pagesLabel}${nextBtn}`;
     }
 
     // We are on the last page
     if (page === numPages && numPages > 1) {
-      return prevBtn;
+      return `${prevBtn}${pagesLabel}`;
     }
     // We are in a middle page
     if (page < numPages) {
-      return `${prevBtn}${nextBtn}`;
+      return `${prevBtn}${pagesLabel}${nextBtn}`;
     }
     // We are at page 1 and therea are no more pages
     if (numPages === 1) {
